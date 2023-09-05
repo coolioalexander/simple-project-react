@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import { getPerson } from './person';
+import { reducer } from './reducer';
 
 export default function PersonScore() {
-  const [name, setName] = useState<string | undefined>();
-  const [score, setScore] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [{ name, score, loading }, dispatch] = useReducer(reducer, {
+    name: undefined,
+    score: 0,
+    loading: true,
+  });
 
   useEffect(() => {
     const fetchPerson = async () => {
-      const person = await getPerson();
-      setLoading(false);
-      setName(person.name);
+      const { name } = await getPerson();
+      dispatch({ type: 'initialized', name });
     };
     fetchPerson();
   }, []);
@@ -24,9 +26,9 @@ export default function PersonScore() {
       <h3>
         {name}, {score}
       </h3>
-      <button onClick={() => setScore(score + 1)}>Add</button>
-      <button onClick={() => setScore(score - 1)}>Substract</button>
-      <button onClick={() => setScore(0)}>Reset</button>
+      <button onClick={() => dispatch({ type: 'increment' })}>Add</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Substract</button>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
     </div>
   );
 }
