@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { getPerson } from './person';
 import { reducer } from './reducer';
 
@@ -8,6 +8,7 @@ export default function PersonScore() {
     score: 0,
     loading: true,
   });
+  const addButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const fetchPerson = async () => {
@@ -16,6 +17,12 @@ export default function PersonScore() {
     };
     fetchPerson();
   }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      addButtonRef.current?.focus();
+    }
+  }, [loading]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -26,7 +33,9 @@ export default function PersonScore() {
       <h3>
         {name}, {score}
       </h3>
-      <button onClick={() => dispatch({ type: 'increment' })}>Add</button>
+      <button ref={addButtonRef} onClick={() => dispatch({ type: 'increment' })}>
+        Add
+      </button>
       <button onClick={() => dispatch({ type: 'decrement' })}>Substract</button>
       <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
     </div>
