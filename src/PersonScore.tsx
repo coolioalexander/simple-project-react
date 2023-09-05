@@ -1,6 +1,7 @@
-import { useEffect, useReducer, useRef, useMemo } from 'react';
+import { useEffect, useReducer, useRef, useMemo, useCallback } from 'react';
 import { getPerson } from './person';
 import { reducer } from './reducer';
+import { Reset } from './Reset';
 
 export default function PersonScore() {
   const [{ name, score, loading }, dispatch] = useReducer(reducer, {
@@ -18,7 +19,8 @@ export default function PersonScore() {
     }
     return sum;
   };
-  const expensiveValue = useMemo(expensiveFunction, []);
+  const expensiveValue = useMemo<number>(expensiveFunction, []);
+  const resetCallback = useCallback(() => dispatch({ type: 'reset' }), []);
 
   useEffect(() => {
     const fetchPerson = async () => {
@@ -48,7 +50,7 @@ export default function PersonScore() {
         Add
       </button>
       <button onClick={() => dispatch({ type: 'decrement' })}>Substract</button>
-      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+      <Reset onReset={resetCallback} />
     </div>
   );
 }
