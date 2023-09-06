@@ -1,7 +1,4 @@
-/** @jsxImportSource @emotion/react */
 import { ReactNode, useState } from 'react';
-import styles from './Alert.module.css';
-import { css } from '@emotion/react';
 
 type Props = {
   type?: string;
@@ -33,33 +30,29 @@ export default function Alert({
 
   return (
     <div
-      css={css`
-        display: inline-flex;
-        flex-direction: column;
-        text-align: left;
-        padding: 10px 15px;
-        border-radius: 4px;
-        border: 1px solid transparent;
-        color: ${type === 'warning' ? '#e7650f' : '#118da0'};
-        background-color: ${type === 'warning' ? '#f3e8da' : '#dcf1f3'};
-      `}
+      className={`inline-flex flex-col text-left py-3 px-4 rounded-md border-1 border-transparent 
+    ${type === 'warning' ? 'text-amber-900 bg-amber-50' : 'text-teal-900 bg-teal-50'}`}
     >
-      <div className={styles.header}>
+      <div className="flex items-center mb-1">
         <span
-          className={styles.headerIcon}
+          className="w-7"
           role="img"
           aria-label={type === 'warning' ? 'Warning' : 'Information'}
         >
           {type === 'warning' ? '⚠️' : 'ℹ️'}
         </span>
-        <span className={styles.headerText}>{heading}</span>
+        <span className="font-bold">{heading}</span>
         {closeable && (
-          <button className={styles.closeButton} role="img" aria-label="Close">
+          <button
+            className="border-none bg-transparent ml-auto cursor-pointer"
+            role="img"
+            aria-label="Close"
+          >
             <span onClick={handleClose}>❌</span>
           </button>
         )}
       </div>
-      <div className={styles.content}>{children}</div>
+      <div className="ml-7 text-black">{children}</div>
     </div>
   );
 }
