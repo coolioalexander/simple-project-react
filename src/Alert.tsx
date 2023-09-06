@@ -1,5 +1,7 @@
+/** @jsxImportSource @emotion/react */
 import { ReactNode, useState } from 'react';
 import styles from './Alert.module.css';
+import { css } from '@emotion/react';
 
 type Props = {
   type?: string;
@@ -30,7 +32,18 @@ export default function Alert({
   }
 
   return (
-    <div className={`${styles.container} ${styles[type]}`}>
+    <div
+      css={css`
+        display: inline-flex;
+        flex-direction: column;
+        text-align: left;
+        padding: 10px 15px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        color: ${type === 'warning' ? '#e7650f' : '#118da0'};
+        background-color: ${type === 'warning' ? '#f3e8da' : '#dcf1f3'};
+      `}
+    >
       <div className={styles.header}>
         <span
           className={styles.headerIcon}
