@@ -1,14 +1,13 @@
-import React from 'react';
-import './App.css';
-import PersonScore from './PersonScore';
-import Alert from './Alert';
+import { Outlet } from 'react-router-dom';
+import Header from './components/Header';
 
 function App() {
   return (
-    <div className="container">
-      <Alert heading="Success" closeable onClose={() => console.log('Closed!')}>
-        Everything is really good!
-      </Alert>
+    <div>
+      <>
+        <Header />
+        <Outlet />
+      </>
     </div>
   );
 }
