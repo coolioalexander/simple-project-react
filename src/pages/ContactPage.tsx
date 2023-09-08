@@ -32,15 +32,22 @@ export function ContactPage() {
       <Form method="post">
         <div className={fieldStyle}>
           <label htmlFor="name">Your name</label>
-          <input className={inputStyle} type="text" id="name" name="name" />
+          <input className={inputStyle} type="text" id="name" name="name" required />
         </div>
         <div className={fieldStyle}>
           <label htmlFor="email">Your address email</label>
-          <input className={inputStyle} type="email" id="email" name="email" />
+          <input
+            className={inputStyle}
+            type="email"
+            id="email"
+            name="email"
+            required
+            pattern="\S+@\S+.\S+"
+          />
         </div>
         <div className={fieldStyle}>
           <label htmlFor="reason">Reason you need to contact us</label>
-          <select className={selectStyle} id="reason" name="reason">
+          <select className={selectStyle} id="reason" name="reason" required>
             <option value=""></option>
             <option value="Support">Support</option>
             <option value="Feedback">Feedback</option>
