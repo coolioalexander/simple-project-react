@@ -5,6 +5,7 @@ import ErrorPage from './pages/ErrorPage';
 import HomePage from './pages/HomePage';
 import App from './App';
 import { lazy, Suspense } from 'react';
+import ContactPage from './pages/ContactPage';
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 export default function Routes() {
@@ -37,6 +38,11 @@ export default function Routes() {
           ),
         },
       ],
+    },
+    {
+      path: 'contact',
+      element: <ContactPage />,
+      errorElement: <ErrorPage />,
     },
   ]);
 
