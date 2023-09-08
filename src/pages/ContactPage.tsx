@@ -1,4 +1,4 @@
-import { FormEvent, ChangeEvent, useState } from 'react';
+import { FormEvent, useRef } from 'react';
 
 type Contact = {
   name: string;
@@ -8,24 +8,19 @@ type Contact = {
 };
 
 export default function ContactPage() {
-  const newContact = {
-    name: '',
-    email: '',
-    reason: '',
-    notes: '',
-  };
-  const [contact, setContact] = useState<Contact>(newContact);
-
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => {
-    setContact({ ...contact, [e.target.id]: e.target.value });
-  };
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const contact = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      reason: formData.get('reason'),
+      notes: formData.get('notes'),
+    };
     console.log('Details submitted', contact);
-    setContact(newContact);
+    formRef.current?.reset();
   };
 
   const fieldStyle = 'flex flex-col mb-2 text-xs';
@@ -37,35 +32,18 @@ export default function ContactPage() {
     <div className="flex flex-col py-10 mx-auto max-w-md">
       <h2 className="text-xl font-semibold underline mb-3">Contact us</h2>
       <p className="text-xs mb-3">Enter your details and we'll get back to you asap.</p>
-      <form onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <div className={fieldStyle}>
           <label htmlFor="name">Your name</label>
-          <input
-            className={inputStyle}
-            type="text"
-            id="name"
-            value={contact.name}
-            onChange={handleChange}
-          />
+          <input className={inputStyle} type="text" id="name" name="name" />
         </div>
         <div className={fieldStyle}>
           <label htmlFor="email">Your address email</label>
-          <input
-            className={inputStyle}
-            type="email"
-            id="email"
-            value={contact.email}
-            onChange={handleChange}
-          />
+          <input className={inputStyle} type="email" id="email" name="email" />
         </div>
         <div className={fieldStyle}>
           <label htmlFor="reason">Reason you need to contact us</label>
-          <select
-            className={selectStyle}
-            id="reason"
-            value={contact.reason}
-            onChange={handleChange}
-          >
+          <select className={selectStyle} id="reason" name="reason">
             <option value=""></option>
             <option value="Support">Support</option>
             <option value="Feedback">Feedback</option>
@@ -73,12 +51,7 @@ export default function ContactPage() {
         </div>
         <div className={fieldStyle}>
           <label htmlFor="notes">Additional notes</label>
-          <textarea
-            className={textareaStyle}
-            id="notes"
-            value={contact.notes}
-            onChange={handleChange}
-          />
+          <textarea className={textareaStyle} id="notes" name="notes" />
         </div>
         <div>
           <button className="bg-black text-white text-xs font-semibold mt-2 h-7 px-6">
