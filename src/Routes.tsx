@@ -5,7 +5,8 @@ import ErrorPage from './pages/ErrorPage';
 import HomePage from './pages/HomePage';
 import App from './App';
 import { lazy, Suspense } from 'react';
-import ContactPage from './pages/ContactPage';
+import { ContactPage, contactPageAction } from './pages/ContactPage';
+import ThankPage from './pages/ThankPage';
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 export default function Routes() {
@@ -40,8 +41,14 @@ export default function Routes() {
       ],
     },
     {
-      path: 'contact',
+      path: '/contact',
       element: <ContactPage />,
+      action: contactPageAction,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: '/thank/:name',
+      element: <ThankPage />,
       errorElement: <ErrorPage />,
     },
   ]);

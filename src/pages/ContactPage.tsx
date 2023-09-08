@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
 
 type Contact = {
   name: string;
@@ -7,22 +7,19 @@ type Contact = {
   notes: string;
 };
 
-export default function ContactPage() {
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const contact = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      reason: formData.get('reason'),
-      notes: formData.get('notes'),
-    };
-    console.log('Details submitted', contact);
-    formRef.current?.reset();
+export const contactPageAction = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const contact = {
+    name: formData.get('name'),
+    email: formData.get('email'),
+    reason: formData.get('reason'),
+    notes: formData.get('notes'),
   };
+  console.log('Details submitted', contact);
+  return redirect(`/thank/${formData.get('name')}`);
+};
 
+export function ContactPage() {
   const fieldStyle = 'flex flex-col mb-2 text-xs';
   const inputStyle = 'h-6 text-xs';
   const selectStyle = 'h-6 text-xs py-1';
@@ -32,7 +29,7 @@ export default function ContactPage() {
     <div className="flex flex-col py-10 mx-auto max-w-md">
       <h2 className="text-xl font-semibold underline mb-3">Contact us</h2>
       <p className="text-xs mb-3">Enter your details and we'll get back to you asap.</p>
-      <form ref={formRef} onSubmit={handleSubmit}>
+      <Form method="post">
         <div className={fieldStyle}>
           <label htmlFor="name">Your name</label>
           <input className={inputStyle} type="text" id="name" name="name" />
@@ -58,7 +55,7 @@ export default function ContactPage() {
             Submit
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
