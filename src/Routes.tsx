@@ -5,7 +5,7 @@ import ErrorPage from './pages/ErrorPage';
 import HomePage from './pages/HomePage';
 import App from './App';
 import { lazy, Suspense } from 'react';
-import { ContactPage, contactPageAction } from './pages/ContactPage';
+import { ContactPage } from './pages/ContactPage';
 import ThankPage from './pages/ThankPage';
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 
@@ -20,7 +20,7 @@ export default function Routes() {
       children: [
         {
           index: true,
-          element: <HomePage />,
+          element: <HomePage user={undefined} />,
         },
         {
           path: 'products',
@@ -34,7 +34,7 @@ export default function Routes() {
           path: 'admin',
           element: (
             <Suspense fallback={loading}>
-              <AdminPage />
+              <AdminPage permissions={['admin']} />
             </Suspense>
           ),
         },
@@ -43,7 +43,6 @@ export default function Routes() {
     {
       path: '/contact',
       element: <ContactPage />,
-      action: contactPageAction,
       errorElement: <ErrorPage />,
     },
     {

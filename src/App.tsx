@@ -5,7 +5,7 @@ function App() {
   return (
     <div>
       <>
-        <Header />
+        <Header user={{ id: '1', name: 'John Doe' }} onSignIn={() => {}} loading={false} />
         <Outlet />
       </>
     </div>
