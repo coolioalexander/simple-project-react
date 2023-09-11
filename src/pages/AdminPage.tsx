@@ -1,7 +1,8 @@
-import { useAppContext } from '../state/AppContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 export default function AdminPage() {
-  const { permissions } = useAppContext();
+  const { permissions } = useSelector((state: RootState) => state.user);
 
   return (
     <div className="text-center p-5 text-slate-900">

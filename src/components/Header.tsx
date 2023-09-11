@@ -1,27 +1,41 @@
-import { Link, NavLink, useSearchParams, useNavigate, Form } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, NavLink, useSearchParams, Form } from 'react-router-dom';
 import { ReactComponent as Logo } from './../logo.svg';
-import { User, authenticate } from '../auth/authenticate';
+import { authenticate } from '../auth/authenticate';
 import { ReactComponent as UserIcon } from './../user.svg';
-import { useAppContext } from '../state/AppContext';
+import { useSelector, useDispatch } from 'react-redux';
 import { authorize } from '../auth/authorize';
+import { RootState } from '../store/store';
+import {
+  authenticateAction,
+  authenticatedAction,
+  authorizeAction,
+  authorizedAction,
+} from '../store/userSlice';
 
 export default function Header() {
-  const { user, loading, dispatch } = useAppContext();
+  const [checked, setChecked] = useState(false);
+  const { user, loading } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
 
   const handleSignIn = async () => {
-    dispatch({ type: 'authenticate' });
+    dispatch(authenticateAction());
     const authenticatedUser = await authenticate();
-    dispatch({ type: 'authenticated', user: authenticatedUser });
+    dispatch(authenticatedAction(authenticatedUser));
     if (authenticatedUser !== undefined) {
-      dispatch({ type: 'authorize' });
+      dispatch(authorizeAction());
       const authorizations = await authorize(authenticatedUser.id);
-      dispatch({ type: 'authorized', permissions: authorizations });
+      dispatch(authorizedAction(authorizations));
     }
   };
 
   return (
-    <header className="flex items-center justify-between text-slate-50 bg-slate-900 h-10 p-5">
+    <header
+      className={`flex items-center justify-between h-10 p-5 ${
+        checked ? 'bg-slate-50 text-slate-900' : 'text-slate-50 bg-slate-900'
+      }`}
+    >
       <div className="flex items-center justify-center">
         <Link to="">
           <Logo className="inline-block h-5" />
@@ -31,7 +45,6 @@ export default function Header() {
         </Link>
       </div>
       <Form className="flex items-center w-1/5 mx-10" action="/products">
-        {/* onSubmit={onSearch} */}
         <input
           type="search"
           id="search"
@@ -40,20 +53,20 @@ export default function Header() {
           className="w-full px-2 py-0.5 text-xs bg-white text-gray-700 rounded"
         />
       </Form>
-      <nav className="flex items-center justify-end ml-auto mr-6 text-sm">
+      <nav
+        className={`flex items-center justify-end ml-auto mr-6 text-sm ${
+          checked ? 'text-slate-900' : 'text-white'
+        }`}
+      >
         <NavLink
           to="products"
-          className={({ isActive }) =>
-            `${isActive ? 'font-semibold' : ''} text-white no-underline mx-1`
-          }
+          className={({ isActive }) => `${isActive ? 'font-semibold' : ''} no-underline mx-1`}
         >
           Products
         </NavLink>
         <NavLink
           to="admin"
-          className={({ isActive }) =>
-            `${isActive ? 'font-semibold' : ''} text-white no-underline mx-1`
-          }
+          className={({ isActive }) => `${isActive ? 'font-semibold' : ''} no-underline mx-1`}
         >
           Admin
         </NavLink>
@@ -61,17 +74,32 @@ export default function Header() {
       <div className="flex items-center justify-end">
         {user ? (
           <>
-            <span className="text-xs text-slate-300">{user.name}</span>
+            <span className={`text-xs ${checked ? 'text-slate-900' : 'text-slate-300'}`}>
+              {user.name}
+            </span>
             <UserIcon className="inline-block h-5 px-1" />
           </>
         ) : (
           <button
             onClick={handleSignIn}
-            className="border border-transparent rounded-md text-xs text-slate-300 bg-transparent hover:bg-slate-700 font-semibold px-2 py-1 cursor-pointer"
+            className={`border border-transparent rounded-md text-xs bg-transparent font-semibold px-2 py-1 cursor-pointer ${
+              checked ? 'text-slate-700 hover:bg-slate-300' : 'text-slate-300 hover:bg-slate-700'
+            }`}
           >
             {loading ? '...' : 'Sign in'}
           </button>
         )}
+      </div>
+      <div className="ml-1">
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={() => setChecked(!checked)}
+            className="sr-only peer"
+          />
+          <div className="w-5 h-3 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-2 after:w-2 after:transition-all dark:border-gray-600 peer-checked:bg-slate-900"></div>
+        </label>
       </div>
     </header>
   );

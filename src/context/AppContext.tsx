@@ -1,5 +1,5 @@
 import { Dispatch, createContext, useContext, useReducer, ReactNode } from 'react';
-import { User } from './../auth/authenticate';
+import { User } from '../auth/authenticate';
 
 type State = {
   user: User | undefined;
