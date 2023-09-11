@@ -1,16 +1,24 @@
 import { Link, NavLink, useSearchParams, useNavigate, Form } from 'react-router-dom';
 import { ReactComponent as Logo } from './../logo.svg';
-import { User } from './../data/authenticate';
+import { User, authenticate } from '../auth/authenticate';
 import { ReactComponent as UserIcon } from './../user.svg';
+import { useAppContext } from '../state/AppContext';
+import { authorize } from '../auth/authorize';
 
-type Props = {
-  user: User | undefined;
-  onSignIn: () => void;
-  loading: boolean;
-};
-
-export default function Header({ user, onSignIn, loading }: Props) {
+export default function Header() {
+  const { user, loading, dispatch } = useAppContext();
   const [searchParams] = useSearchParams();
+
+  const handleSignIn = async () => {
+    dispatch({ type: 'authenticate' });
+    const authenticatedUser = await authenticate();
+    dispatch({ type: 'authenticated', user: authenticatedUser });
+    if (authenticatedUser !== undefined) {
+      dispatch({ type: 'authorize' });
+      const authorizations = await authorize(authenticatedUser.id);
+      dispatch({ type: 'authorized', permissions: authorizations });
+    }
+  };
 
   return (
     <header className="flex items-center justify-between text-slate-50 bg-slate-900 h-10 p-5">
@@ -58,7 +66,7 @@ export default function Header({ user, onSignIn, loading }: Props) {
           </>
         ) : (
           <button
-            onClick={onSignIn}
+            onClick={handleSignIn}
             className="border border-transparent rounded-md text-xs text-slate-300 bg-transparent hover:bg-slate-700 font-semibold px-2 py-1 cursor-pointer"
           >
             {loading ? '...' : 'Sign in'}

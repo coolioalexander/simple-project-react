@@ -1,10 +1,8 @@
-import { User } from './../data/authenticate';
+import { useAppContext } from '../state/AppContext';
 
-type Props = {
-  user: User | undefined;
-};
+export default function HomePage() {
+  const { user } = useAppContext();
 
-export default function HomePage({ user }: Props) {
   return (
     <div className="text-center p-5 text-slate-900">
       <h1 className="text-base font-semibold">Welcome</h1>

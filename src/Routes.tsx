@@ -20,7 +20,7 @@ export default function Routes() {
       children: [
         {
           index: true,
-          element: <HomePage user={undefined} />,
+          element: <HomePage />,
         },
         {
           path: 'products',
@@ -34,7 +34,7 @@ export default function Routes() {
           path: 'admin',
           element: (
             <Suspense fallback={loading}>
-              <AdminPage permissions={['admin']} />
+              <AdminPage />
             </Suspense>
           ),
         },
