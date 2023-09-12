@@ -25,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server --watch db.json --port 3001 --delay 2000"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +52,7 @@
     "autoprefixer": "^10.4.15",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "json-server": "^0.17.3",
     "postcss": "^8.4.29",
     "prettier": "^3.0.3",
     "tailwindcss": "^3.3.3"

@@ -41,7 +41,7 @@ export default function Header() {
           <Logo className="inline-block h-5" />
         </Link>
         <Link to="">
-          <h2 className="text-l font-bold mx-5">React Tools</h2>
+          <h2 className="text-l font-bold mx-5">👋 React</h2>
         </Link>
       </div>
       <Form className="flex items-center w-1/5 mx-10" action="/products">
@@ -50,7 +50,7 @@ export default function Header() {
           id="search"
           name="search"
           defaultValue={searchParams.get('search') ?? ''}
-          className="w-full px-2 py-0.5 text-xs bg-white text-gray-700 rounded"
+          className="w-full px-2 py-0.5 text-xs bg-white text-gray-700"
         />
       </Form>
       <nav
@@ -60,13 +60,19 @@ export default function Header() {
       >
         <NavLink
           to="products"
-          className={({ isActive }) => `${isActive ? 'font-semibold' : ''} no-underline mx-1`}
+          className={({ isActive }) => `${isActive ? 'font-semibold' : ''} no-underline mx-2`}
         >
           Products
         </NavLink>
         <NavLink
+          to="blog"
+          className={({ isActive }) => `${isActive ? 'font-semibold' : ''} no-underline mx-2`}
+        >
+          Blog
+        </NavLink>
+        <NavLink
           to="admin"
-          className={({ isActive }) => `${isActive ? 'font-semibold' : ''} no-underline mx-1`}
+          className={({ isActive }) => `${isActive ? 'font-semibold' : ''} no-underline mx-2`}
         >
           Admin
         </NavLink>

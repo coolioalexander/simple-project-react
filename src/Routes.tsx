@@ -7,6 +7,7 @@ import App from './App';
 import { lazy, Suspense } from 'react';
 import { ContactPage } from './pages/ContactPage';
 import ThankPage from './pages/ThankPage';
+import BlogPage from './pages/BlogPage';
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 export default function Routes() {
@@ -29,6 +30,10 @@ export default function Routes() {
         {
           path: 'products/:id',
           element: <ProductPage />,
+        },
+        {
+          path: 'blog',
+          element: <BlogPage />,
         },
         {
           path: 'admin',

@@ -1,0 +1,44 @@
+{
+  "posts": [
+    {
+      "title": "Getting started with fetch",
+      "description": "How to interact with backend APIs using fetch",
+      "id": 1
+    },
+    {
+      "title": "Getting started with useEffect",
+      "description": "How to use React's useEffect hook for interacting with backend APIs",
+      "id": 2
+    },
+    {
+      "title": "Good news",
+      "description": "Today...",
+      "id": 3
+    },
+    {
+      "title": "Hello world",
+      "description": "That's ok",
+      "id": 4
+    },
+    {
+      "title": "Hi",
+      "description": "i am",
+      "id": 5
+    },
+    {
+      "title": "Hoooo",
+      "description": "haaaaaaaaaaa",
+      "id": 6
+    },
+    {
+      "title": "Huuuuuu",
+      "description": "yummmmm",
+      "id": 7
+    },
+    {
+      "title": "Sonar",
+      "description": "Clean as you code",
+      "id": 8
+    }
+  ]
+}
