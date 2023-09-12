@@ -8,6 +8,7 @@ import { lazy, Suspense } from 'react';
 import { ContactPage } from './pages/ContactPage';
 import ThankPage from './pages/ThankPage';
 import BlogPage from './pages/BlogPage';
+import { getPosts } from './posts/api';
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 export default function Routes() {
@@ -34,6 +35,7 @@ export default function Routes() {
         {
           path: 'blog',
           element: <BlogPage />,
+          loader: async () => ({ posts: getPosts() }),
         },
         {
           path: 'admin',

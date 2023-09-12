@@ -10,7 +10,7 @@ export const getPosts = async () => {
   return data;
 };
 
-function assertIsPosts(posts: any): asserts posts is Post[] {
+export function assertIsPosts(posts: any): asserts posts is Post[] {
   if (!Array.isArray(posts)) {
     throw new Error('Posts is not an array');
   }
