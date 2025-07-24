@@ -1,6 +1,9 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Simple project involves building a small, focused web application to demonstrate fundamental React concepts
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) version 18.2.0.
+
+<img width="2560" height="1174" alt="simple-post" src="https://github.com/user-attachments/assets/07f25a3f-8a00-403c-a0ad-10c2eb792f3e" />
 
 ## Available Scripts
 
